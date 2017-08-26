@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/rabbit 
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+	<context:component-scan base-package="com.idata.mq.base" />
+	<context:component-scan base-package="com.idata.mq.base.properties" />
+
+	<!-- 连接服务器 command 消息配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${conn.service.command.queue.name}">
+	</rabbit:queue>
+
+	<!--连接服务 confirm消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${conn.service.confirm.queue.name}">
+	</rabbit:queue>
+
+	<!--连接服务器 status消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${conn.service.status.queue.name}">
+	</rabbit:queue>
+
+	<!--connection服务器失败消息queue -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${conn.service.msg.fail.queue.name}">
+	</rabbit:queue>
+
+	<!--设备 offline消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.device.offline.queue.name}">
+	</rabbit:queue>
+
+	<!--设备 online消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.device.online.queue.name}">
+	</rabbit:queue>
+
+	<!--设备 messgeSendResult消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.device.message.result.queue.name}">
+	</rabbit:queue>
+
+	<!--设备消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${conn.device.message.queue.name}">
+	</rabbit:queue>
+
+	<!--mdm confirm消息 配置 -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.service.confirm.queue.name}" />
+
+	<!-- mdm服务器心跳queue -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.service.status.queue.name}">
+	</rabbit:queue>
+
+	<!-- mdm服务器失败消息queue -->
+	<rabbit:queue durable="true" auto-delete="false"
+		exclusive="false" name="${mdm.service.msg.fail.queue.name}">
+	</rabbit:queue>
+
+	<rabbit:direct-exchange name="conn-direct-exchange"
+		durable="true" auto-delete="false" id="conn-direct-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="${mdm.device.online.queue.name}"
+				key="${mdm.device.online.routing.key}" />
+			<rabbit:binding queue="${mdm.device.offline.queue.name}"
+				key="${mdm.device.offline.routing.key}" />
+			<rabbit:binding queue="${mdm.service.status.queue.name}"
+				key="${mdm.service.status.routing.key}" />
+			<rabbit:binding queue="${mdm.device.message.result.queue.name}"
+				key="${mdm.device.message.result.routing.key}" />
+			<rabbit:binding queue="${mdm.service.confirm.queue.name}"
+				key="${mdm.service.confirm.routing.key}" />
+			<rabbit:binding queue="${mdm.service.msg.fail.queue.name}"
+				key="${mdm.service.msg.fail.routing.key}" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<rabbit:direct-exchange name="mdm-direct-exchange"
+		durable="true" auto-delete="false" id="mdm-direct-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="${conn.device.message.queue.name}"
+				key="${conn.device.message.routing.key}" />
+			<rabbit:binding queue="${conn.service.command.queue.name}"
+				key="${conn.service.command.routing.key}" />
+			<rabbit:binding queue="${conn.service.confirm.queue.name}"
+				key="${conn.service.confirm.routing.key}" />
+			<rabbit:binding queue="${conn.service.status.queue.name}"
+				key="${conn.service.status.routing.key}" />
+			<rabbit:binding queue="${conn.service.msg.fail.queue.name}"
+				key="${conn.service.msg.fail.routing.key}" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+</beans>

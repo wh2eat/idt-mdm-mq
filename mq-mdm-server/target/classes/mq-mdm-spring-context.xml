@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/rabbit 
+        http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+	<import resource="classpath*:mq-base-spring-context.xml" />
+
+	<context:component-scan base-package="com.idata.mq.mdm.service" />
+
+	<rabbit:template id="mdmDirectTemplate" exchange="mdm-direct-exchange"
+		retry-template="retryConnTemplate" connection-factory="connectionFactory"
+		message-converter="jsonMessageConverter" />
+
+	<!-- 接受conn server 状态消息 -->
+	<!-- 接受设备离线消息 -->
+	<bean id="deviceOfflineMessageListener" class="com.idata.mq.base.listener.DeviceOfflineMessageListener"/>
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="manual"
+		concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+		<rabbit:listener queues="${mdm.device.offline.queue.name}"
+			ref="deviceOfflineMessageListener" />
+	</rabbit:listener-container>
+
+	<!-- 接受设备上线消息 -->
+	<bean id="deviceOnlineMessageListener" class="com.idata.mq.base.listener.DeviceOnlineMessageListener"/>
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="manual"
+		concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+		<rabbit:listener queues="${mdm.device.online.queue.name}"
+			ref="deviceOnlineMessageListener" />
+	</rabbit:listener-container>
+
+	<!-- 接受服务器状态消息 -->
+	<bean id="serviceStatusMessageListener" class="com.idata.mq.base.listener.ServiceStatusMessageListener"/>
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="manual"
+		concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+		<rabbit:listener queues="${mdm.service.status.queue.name}"
+			ref="serviceStatusMessageListener" />
+	</rabbit:listener-container>
+
+	<!-- 接受设备消息发送结果 消息 -->
+	<bean id="deviceMessageResultListener" class="com.idata.mq.base.listener.DeviceMessageResultListener"/>
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="manual"
+		concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+		<rabbit:listener queues="${mdm.device.message.result.queue.name}"
+			ref="deviceMessageResultListener" />
+	</rabbit:listener-container>
+
+	<!-- 接受处理失败 消息 -->
+	<bean id="failMessageListener" class="com.idata.mq.base.listener.FailMessageListener"/>
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="manual"
+		concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+		<rabbit:listener queues="${mdm.service.msg.fail.queue.name}"
+			ref="failMessageListener" />
+	</rabbit:listener-container>
+</beans>
