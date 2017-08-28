@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" time="21.041" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" time="20.616" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="D:\ProgramFiles\Java\jdk1.8.0_111\jre\bin"/>
@@ -65,9 +65,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendAliveMessage" time="3.151"/>
-  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendDeviceMessageResultMessage" time="4.967"/>
+  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendAliveMessage" time="2.746"/>
+  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendDeviceMessageResultMessage" time="4.961"/>
   <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendDeviceOnlineMessage" time="4.964"/>
-  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendDeviceOfflineMessage" time="4.962"/>
-  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendFailMessage" time="2.997"/>
+  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendDeviceOfflineMessage" time="4.961"/>
+  <testcase classname="com.idata.mq.conection.test.Connection2MdmMessageSendServiceTest" name="testSendFailMessage" time="2.984"/>
 </testsuite>
