@@ -20,6 +20,9 @@ public class ServiceStatusMessageListener extends BaseMessageListener<ServerStat
 
     @Override
     public void onMessage(ServerStatusMessage message) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][" + message.getClass().getSimpleName() + "][" + message.getMessageId() + "]");
+        }
         if (null != messageReceiver) {
             messageReceiver.receive(message);
         }

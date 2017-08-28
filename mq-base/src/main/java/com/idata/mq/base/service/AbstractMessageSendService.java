@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.event.EventListener;
 
 import com.idata.mq.base.constant.FailMessageCodeConstants;
+import com.idata.mq.base.constant.ServerConstants;
 import com.idata.mq.base.event.BackProcessFailedMessageEvent;
 import com.idata.mq.base.event.ConfirmCallbackEvent;
 import com.idata.mq.base.event.MessageAckFailedEvent;
@@ -33,56 +34,81 @@ public abstract class AbstractMessageSendService implements MessageSendService, 
 
     private volatile long targetHeartbeatFlushMillis = System.currentTimeMillis();
 
-    private volatile boolean targetServerRunning = true;
+    private volatile Integer targetServerStatus = ServerConstants.STATUS_RUNNING;
 
     private AmqProperties amqProperties;
 
     private Thread monitorThread = new Thread(new Runnable() {
 
+        private void autoSendAlive() {
+            if (!amqProperties.isAutoSendAlive()) {
+                return;
+            }
+            try {
+                sendAlive();
+            }
+            catch (Exception e1) {
+                LOGGER.error("[][][auto sendAlive failed]", e1);
+            }
+        }
+
+        private void checkTargetServerStatus() {
+
+            if (!amqProperties.isCheckHeartbeat()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("[][][isCheckHeartbeat:false,not checkTargetServerStatus]");
+                }
+                return;
+            }
+
+            if (!isRunningForTargetServer()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("[][][TargetServer stoped,not checkTargetServerStatus]");
+                }
+                return;
+            }
+
+            long nowMillis = System.currentTimeMillis();
+            long diff = nowMillis - targetHeartbeatFlushMillis;
+            if (diff > amqProperties.getAliveTimeoutMillis()) {
+                targetServerStatus = ServerConstants.STATUS_EXCEPTION;
+                LOGGER.error("[][][" + targetServerName + " is not running]");
+            }
+        }
+
+        private void doRun() {
+            if (LOGGER.isDebugEnabled()) {
+                int size = message_cache.size();
+                if (size > 0) {
+                    LOGGER.debug("[][][monitor message cache size:" + size + "]");
+                }
+            }
+
+            checkTargetServerStatus();
+
+            autoSendAlive();
+
+        }
+
         @Override
         public void run() {
+
             LOGGER.info("[][][monitorThread run][" + amqProperties + "]");
 
             while (true) {
-                if (LOGGER.isDebugEnabled()) {
-                    int size = message_cache.size();
-                    if (size > 0) {
-                        LOGGER.debug("[][][monitor message cache size:" + size + "]");
-                        System.out.println("[][][monitor message cache size:" + size + "]");
-                    }
-                }
 
-                if (amqProperties.isCheckHeartbeat()) {
-                    try {
-                        sendAlive();
-                    }
-                    catch (SendMessageException e1) {
-                        LOGGER.error("[][][sendAlive failed]", e1);
-                    }
-                    long nowMillis = System.currentTimeMillis();
-                    long diff = nowMillis - targetHeartbeatFlushMillis;
-                    if (diff <= 120 * 1000) {
-                        if (!targetServerRunning) {
-                            targetServerRunning = true;
-                        }
-                    }
-                    else {
-                        if (targetServerRunning) {
-                            targetServerRunning = false;
-                            LOGGER.error("[][][" + targetServerName + " is not running]");
-                        }
-                    }
-                }
+                doRun();
+
                 try {
                     Thread.currentThread();
-                    Thread.sleep(60 * 1000);
+                    Thread.sleep(amqProperties.getAliveSendMillis());
                 }
                 catch (InterruptedException e) {
                     LOGGER.error("[][InterruptedException][]", e);
                 }
             }
         }
-    }, "message-send-status-monitor-thread");
+    }, "SEND-SERVICE-MONITOR-THREAD");
 
     protected void init() {
         monitorThread.start();
@@ -98,10 +124,26 @@ public abstract class AbstractMessageSendService implements MessageSendService, 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("[][receiveServerStatusMessage][" + statusMessage + "]");
         }
-        String serverName = statusMessage.getServerName();
-        if (serverName.equals(targetServerName)) {
-            targetHeartbeatFlushMillis = System.currentTimeMillis();
+
+        if (!amqProperties.isCheckHeartbeat()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("[][][isCheckHeartbeat:false,dont process ServerStatusMessage][" + statusMessage + "]");
+            }
+            return;
         }
+
+        String serverName = statusMessage.getServerName();
+        if (targetServerName.equals(serverName)) {
+            targetHeartbeatFlushMillis = System.currentTimeMillis();
+            if (isRunningForTargetServer()) {
+                return;
+            }
+            targetServerStatus = ServerConstants.STATUS_RUNNING;
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("[][processEvent][" + targetServerName + " running]");
+            }
+        }
+
     }
 
     @EventListener
@@ -175,9 +217,14 @@ public abstract class AbstractMessageSendService implements MessageSendService, 
     }
 
     protected void sendMessage(String routingKey, BaseMessage message) throws SendMessageException {
+        sendMessage(true, routingKey, message);
+    }
 
-        if (!isRunningForTargetServer()) {
-            throw new SendMessageException(
+    protected void sendMessage(Boolean isCheckTargetServerStatus, String routingKey, BaseMessage message)
+            throws SendMessageException {
+
+        if (isCheckTargetServerStatus && !isRunningForTargetServer()) {
+            throw new SendMessageException(SendMessageException.CODE_TARGET_SERVER_STOPED,
                     targetServerName + " is not running,case:not accept server Heartbeat in 120 seconds");
         }
 
@@ -213,7 +260,7 @@ public abstract class AbstractMessageSendService implements MessageSendService, 
         if (!amqProperties.isCheckHeartbeat()) {
             return true;
         }
-        return targetServerRunning;
+        return ServerConstants.STATUS_RUNNING.equals(targetServerStatus);
     }
 
     private ApplicationEventPublisher eventPublisher;

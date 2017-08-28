@@ -38,6 +38,10 @@ public abstract class BaseMessageListener<T> implements ChannelAwareMessageListe
 
     @Override
     public void onMessage(final Message message, final Channel channel) throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug(
+                    "[][onMessage][CorrelationId:" + message.getMessageProperties().getCorrelationIdString() + "]");
+        }
 
         try {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

@@ -24,6 +24,23 @@ public class AmqProperties {
     @Value("${mq.checkHeartbeat}")
     private boolean checkHeartbeat;
 
+    @Value("${mq.autoSendAlive}")
+    private boolean autoSendAlive;
+
+    @Value("${mq.server.alive.timeout.millis}")
+    private long aliveTimeoutMillis;
+
+    @Value("${mq.server.alive.send.millis}")
+    private long aliveSendMillis;
+
+    public boolean isAutoSendAlive() {
+        return autoSendAlive;
+    }
+
+    public void setAutoSendAlive(boolean autoSendAlive) {
+        this.autoSendAlive = autoSendAlive;
+    }
+
     public String getHost() {
         return host;
     }
@@ -76,5 +93,21 @@ public class AmqProperties {
     public String toString() {
         return "username:" + username + ";password:" + password + ";host:" + host + ";port:" + port + ";virtualHost:"
                 + virtualHost + ";checkHeartbeat:" + checkHeartbeat;
+    }
+
+    public long getAliveTimeoutMillis() {
+        return aliveTimeoutMillis;
+    }
+
+    public void setAliveTimeoutMillis(long aliveTimeoutMillis) {
+        this.aliveTimeoutMillis = aliveTimeoutMillis;
+    }
+
+    public long getAliveSendMillis() {
+        return aliveSendMillis;
+    }
+
+    public void setAliveSendMillis(long aliveSendMillis) {
+        this.aliveSendMillis = aliveSendMillis;
     }
 }

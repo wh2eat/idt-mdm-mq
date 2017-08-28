@@ -93,7 +93,7 @@ public class Mdm2ConnectionMessageSendServceImpl extends AbstractMessageSendServ
     }
 
     private void sendAlive(ServerStatusMessage statusMessage) throws SendMessageException {
-        sendMessage(amqConnectionProperties.getServiceStatusRoutingKey(), statusMessage);
+        sendMessage(false, amqConnectionProperties.getServiceStatusRoutingKey(), statusMessage);
     }
 
     @Override

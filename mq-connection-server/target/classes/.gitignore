@@ -1,0 +1,6 @@
+/META-INF/
+/com/
+/log4j2.xml
+/mq-connection-listener-test-spring-context.xml
+/mq-connection-server-test-spring-context.xml
+/rabbitmq.properties

@@ -95,7 +95,7 @@ public class Connection2MdmMessageSendServiceImpl extends AbstractMessageSendSer
     }
 
     private void sendAlive(ServerStatusMessage statusMessage) throws SendMessageException {
-        sendMessage(amqMdmProperties.getServiceStatusRoutingKey(), statusMessage);
+        sendMessage(false, amqMdmProperties.getServiceStatusRoutingKey(), statusMessage);
     }
 
     @Override

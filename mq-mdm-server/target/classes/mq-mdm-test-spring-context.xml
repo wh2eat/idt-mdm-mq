@@ -20,38 +20,42 @@
     </rabbit:template>
     
     <bean id="mdmMessageReceiver" class="com.idata.mq.mdm.MdmMessageReceiver"/>
+    
+    <bean id="connectionMessageReceiver" class="com.idata.mq.mdm.ConnectionMessageReceiver"/>
+    
+    <bean id="connectionMessageSender" class="com.idata.mq.mdm.ConnectionMessageSender"/>
 
     <!--接收 mdm发送的命令消息 配置 -->
     <!--接受 command消息 配置 -->
-<!--     <bean id="commandMessageListener" class="com.idata.mq.base.listener.CommandMessageListener"/> -->
-<!--     <rabbit:listener-container -->
-<!--         connection-factory="connectionFactory" acknowledge="manual" -->
-<!--         concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}"> -->
-<!--         <rabbit:listener queues="${conn.service.command.queue.name}" -->
-<!--             ref="commandMessageListener" /> -->
-<!--     </rabbit:listener-container> -->
+    <bean id="commandMessageListener" class="com.idata.mq.base.listener.CommandMessageListener"/>
+    <rabbit:listener-container
+        connection-factory="connectionFactory" acknowledge="manual"
+        concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+        <rabbit:listener queues="${conn.service.command.queue.name}"
+            ref="commandMessageListener" />
+    </rabbit:listener-container>
 
     <!--接收 发送到设备的消息 配置 -->
-<!--     <bean id="deviceMessageListener" class="com.idata.mq.base.listener.DeviceMessageListener"/> -->
-<!--     <rabbit:listener-container -->
-<!--         connection-factory="connectionFactory" acknowledge="manual" -->
-<!--         concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}"> -->
-<!--         <rabbit:listener queues="${conn.device.message.queue.name}" -->
-<!--             ref="deviceMessageListener" /> -->
-<!--     </rabbit:listener-container> -->
+    <bean id="deviceMessageListener" class="com.idata.mq.base.listener.DeviceMessageListener"/>
+    <rabbit:listener-container
+        connection-factory="connectionFactory" acknowledge="manual"
+        concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+        <rabbit:listener queues="${conn.device.message.queue.name}"
+            ref="deviceMessageListener" />
+    </rabbit:listener-container>
 
-<!--     <rabbit:listener-container -->
-<!--         connection-factory="connectionFactory" acknowledge="manual" -->
-<!--         concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}"> -->
-<!--         <rabbit:listener queues="${conn.service.status.queue.name}" -->
-<!--             ref="serviceStatusMessageListener" /> -->
-<!--     </rabbit:listener-container> -->
+    <rabbit:listener-container
+        connection-factory="connectionFactory" acknowledge="manual"
+        concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+        <rabbit:listener queues="${conn.service.status.queue.name}"
+            ref="serviceStatusMessageListener" />
+    </rabbit:listener-container>
 
-<!--     <rabbit:listener-container -->
-<!--         connection-factory="connectionFactory" acknowledge="manual" -->
-<!--         concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}"> -->
-<!--         <rabbit:listener queues="${conn.service.msg.fail.queue.name}" -->
-<!--             ref="failMessageListener" /> -->
-<!--     </rabbit:listener-container> -->
+    <rabbit:listener-container
+        connection-factory="connectionFactory" acknowledge="manual"
+        concurrency="${mq.listener.container.concurrency}" prefetch="${mq.listener.container.prefetch}">
+        <rabbit:listener queues="${conn.service.msg.fail.queue.name}"
+            ref="failMessageListener" />
+    </rabbit:listener-container>
 	
 </beans>

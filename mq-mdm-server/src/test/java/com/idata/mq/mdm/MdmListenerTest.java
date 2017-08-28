@@ -6,22 +6,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import com.idata.mq.base.constant.ServerConstants;
 import com.idata.mq.base.exception.SendMessageException;
-import com.idata.mq.base.message.BaseMessage;
 import com.idata.mq.base.message.DeviceMessageResultMessage;
 import com.idata.mq.base.message.DeviceOfflineMessage;
 import com.idata.mq.base.message.DeviceOnlineMessage;
 import com.idata.mq.base.message.ServerStatusMessage;
 import com.idata.mq.base.properties.AmpMdmProperties;
-import com.idata.mq.base.util.RandomGeneratorUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:mq-mdm-test-spring-context.xml" })
@@ -31,6 +26,9 @@ public class MdmListenerTest {
 
     @Autowired
     private MdmMessageReceiver mdmMessageReceiver;
+
+    @Autowired
+    private ConnectionMessageSender connectionMessageSender;
 
     @Before
     public void setUp() {
@@ -44,7 +42,7 @@ public class MdmListenerTest {
         }
         DeviceOnlineMessage onlineMessage = new DeviceOnlineMessage();
         onlineMessage.setMessageId("001");
-        sendMessage(ampMdmProperties.getDeviceOnlineRoutingKey(), onlineMessage);
+        connectionMessageSender.sendMessage(ampMdmProperties.getDeviceOnlineRoutingKey(), onlineMessage);
         if (logger.isDebugEnabled()) {
             logger.debug("[][testReceiveDeviceOnlineMessage][sendDeviceOnline]");
         }
@@ -67,7 +65,7 @@ public class MdmListenerTest {
         }
         DeviceOfflineMessage offlineMessage = new DeviceOfflineMessage();
         offlineMessage.setMessageId("002");
-        sendMessage(ampMdmProperties.getDeviceOfflineRoutingKey(), offlineMessage);
+        connectionMessageSender.sendMessage(ampMdmProperties.getDeviceOfflineRoutingKey(), offlineMessage);
         if (logger.isDebugEnabled()) {
             logger.debug("[][testReceiveDeviceOfflineMessage][sendDeviceOffline]");
         }
@@ -92,7 +90,8 @@ public class MdmListenerTest {
 
         DeviceMessageResultMessage deviceMessageResultMessage = new DeviceMessageResultMessage();
         deviceMessageResultMessage.setDeviceMessageId("003");
-        sendMessage(ampMdmProperties.getDeviceMessageResultRoutingKey(), deviceMessageResultMessage);
+        connectionMessageSender.sendMessage(ampMdmProperties.getDeviceMessageResultRoutingKey(),
+                deviceMessageResultMessage);
         if (logger.isDebugEnabled()) {
             logger.debug("[][testReceiveDeviceMessageResultMessage][sendMessageResult]");
         }
@@ -118,7 +117,7 @@ public class MdmListenerTest {
         ServerStatusMessage serverStatusMessage = new ServerStatusMessage();
         serverStatusMessage.setMessageId("004");
         serverStatusMessage.setServerName(ServerConstants.SERVER_NAME_CONNECTION);
-        sendMessage(ampMdmProperties.getServiceStatusRoutingKey(), serverStatusMessage);
+        connectionMessageSender.sendMessage(ampMdmProperties.getServiceStatusRoutingKey(), serverStatusMessage);
 
         Thread.currentThread();
         Thread.sleep(5 * 1000);
@@ -133,16 +132,5 @@ public class MdmListenerTest {
 
     @Autowired
     private AmpMdmProperties ampMdmProperties;
-
-    @Autowired
-    private RabbitTemplate connDirectTemplate;
-
-    private TimeBasedGenerator generator = RandomGeneratorUtil.getTimeBasedGenerator();
-
-    private void sendMessage(String routingKey, BaseMessage message) {
-        CorrelationData correlationData = new CorrelationData();
-        correlationData.setId(generator.generate().toString());
-        connDirectTemplate.convertAndSend(routingKey, message, correlationData);
-    }
 
 }

@@ -1,5 +1,8 @@
 package com.idata.mq.mdm;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.idata.mq.base.message.DeviceMessageResultMessage;
 import com.idata.mq.base.message.DeviceOfflineMessage;
 import com.idata.mq.base.message.DeviceOnlineMessage;
@@ -33,8 +36,13 @@ public class MdmMessageReceiver extends AbstractMessageReceiver {
 
     private ServerStatusMessage receiveServerStatusMessage;
 
+    private final static Logger logger = LogManager.getLogger(MdmMessageReceiver.class);
+
     @Override
     public void receive(ServerStatusMessage serverStatusMessage) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("[][receive][ServerStatusMessage][" + serverStatusMessage + "]");
+        }
         if (null == monitorServerName || monitorServerName.equals(serverStatusMessage.getServerName())) {
             this.receiveServerStatusMessage = serverStatusMessage;
         }
