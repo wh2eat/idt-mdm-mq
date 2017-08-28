@@ -20,14 +20,14 @@ public class CommandMessageListener extends BaseMessageListener<CommandMessage> 
 
     @Override
     public void onMessage(CommandMessage message) {
-
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][CommandMessage][" + message + "]");
+        }
         if (null != messageReceiver) {
             messageReceiver.receive(message);
         }
         else {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("[][Revice][" + message.getClass().getSimpleName() + "][" + message.getMessageId() + "]");
-            }
+            LOGGER.warn("[][onMessage][CommandMessageReceiver is null]");
         }
     }
 }

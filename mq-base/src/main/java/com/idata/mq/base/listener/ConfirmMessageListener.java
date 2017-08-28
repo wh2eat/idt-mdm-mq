@@ -31,7 +31,9 @@ public class ConfirmMessageListener implements MessageListener {
                     JSONObject confirmJsonMessge = JSONObject.parseObject(body);
                     String messageId = confirmJsonMessge.getString("sourceMessageId");
                     // baseMessageSendService.removeMonitor(messageId);
-                    LOGGER.info("[ConfirmMessageListener][onMessage][messageId:" + messageId + ",remove monitor]");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("[ConfirmMessageListener][onMessage][messageId:" + messageId + ",remove monitor]");
+                    }
                     confirmJsonMessge = null;
                 }
             });

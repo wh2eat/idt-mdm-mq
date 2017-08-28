@@ -20,7 +20,15 @@ public class DeviceOfflineMessageListener extends BaseMessageListener<DeviceOffl
 
     @Override
     public void onMessage(DeviceOfflineMessage message) {
-        messageReceiver.receive(message);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][DeviceOfflineMessage][" + message + "]");
+        }
+        if (null != messageReceiver) {
+            messageReceiver.receive(message);
+        }
+        else {
+            LOGGER.warn("[][onMessage][DeviceOfflineMessage is null]");
+        }
     }
 
 }

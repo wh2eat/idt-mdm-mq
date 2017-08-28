@@ -20,14 +20,14 @@ public class DeviceMessageListener extends BaseMessageListener<DeviceMessage> {
 
     @Override
     public void onMessage(DeviceMessage message) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][DeviceMessage][" + message + "]");
+        }
         if (null != messageReceiver) {
             messageReceiver.receive(message);
         }
         else {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("[][onMessage][messageReceiver is null][" + message.getClass().getSimpleName() + "]["
-                        + message.getMessageId() + "]");
-            }
+            LOGGER.warn("[][onMessage][DeviceMessageReceiver is null]");
         }
     }
 

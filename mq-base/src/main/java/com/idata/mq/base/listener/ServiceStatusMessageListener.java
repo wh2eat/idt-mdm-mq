@@ -12,7 +12,6 @@ public class ServiceStatusMessageListener extends BaseMessageListener<ServerStat
     private final static Logger LOGGER = LogManager.getLogger(ServiceStatusMessageListener.class);
 
     public ServiceStatusMessageListener() {
-        // TODO Auto-generated constructor stub
     }
 
     @Autowired
@@ -21,15 +20,14 @@ public class ServiceStatusMessageListener extends BaseMessageListener<ServerStat
     @Override
     public void onMessage(ServerStatusMessage message) {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[][onMessage][" + message.getClass().getSimpleName() + "][" + message.getMessageId() + "]");
+            LOGGER.debug("[][onMessage][ServerStatusMessage][" + message + "]");
         }
         if (null != messageReceiver) {
             messageReceiver.receive(message);
         }
         else {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("[][onMessage][messageReceiver is null][" + message.getClass().getSimpleName() + "]["
-                        + message.getMessageId() + "]");
+                LOGGER.debug("[][onMessage][ServerStatusMessageReceiver is null]");
             }
         }
     }

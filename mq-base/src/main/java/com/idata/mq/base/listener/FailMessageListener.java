@@ -23,7 +23,16 @@ public class FailMessageListener extends BaseMessageListener<FailMessage> {
 
     @Override
     public void onMessage(FailMessage message) {
-        messageReceiver.receive(message);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][FailMessage][" + message + "]");
+        }
+        if (null != messageReceiver) {
+            messageReceiver.receive(message);
+        }
+        else {
+            LOGGER.warn("[][onMessage][FailMessageReceiver is null]");
+        }
+
     }
 
     @EventListener

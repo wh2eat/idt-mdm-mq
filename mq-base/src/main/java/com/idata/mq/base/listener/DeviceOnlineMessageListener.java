@@ -20,6 +20,15 @@ public class DeviceOnlineMessageListener extends BaseMessageListener<DeviceOnlin
 
     @Override
     public void onMessage(DeviceOnlineMessage message) {
-        messageReceiver.receive(message);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][DeviceOnlineMessage][" + message + "]");
+        }
+        if (null != messageReceiver) {
+            messageReceiver.receive(message);
+        }
+        else {
+            LOGGER.warn("[][onMessage][DeviceOnlineMessageReceiver is null]");
+        }
+
     }
 }

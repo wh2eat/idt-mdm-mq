@@ -20,7 +20,15 @@ public class DeviceMessageResultListener extends BaseMessageListener<DeviceMessa
 
     @Override
     public void onMessage(DeviceMessageResultMessage message) {
-        messageReceiver.receive(message);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("[][onMessage][DeviceMessageResultMessage][" + message + "]");
+        }
+        if (null != messageReceiver) {
+            messageReceiver.receive(message);
+        }
+        else {
+            LOGGER.warn("[][onMessage][DeviceMessageResultMessageReceiver is null]");
+        }
     }
 
 }
