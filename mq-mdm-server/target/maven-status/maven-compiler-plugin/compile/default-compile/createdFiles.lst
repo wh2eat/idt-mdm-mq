@@ -1,4 +1,3 @@
-com\idata\mq\mdm\listener\DeviceOnlineMessageListener.class
-com\idata\mq\mdm\listener\DeviceMessageResultListener.class
-com\idata\mq\mdm\listener\DeviceOfflineMessageListener.class
+com\idata\mq\mdm\service\Mdm2ConnectionMessageSendServceImpl.class
+com\idata\mq\mdm\service\Mdm2ConnectionMessageSendServce.class
 com\idata\mq\mdm\AbstractMessageReceiver.class

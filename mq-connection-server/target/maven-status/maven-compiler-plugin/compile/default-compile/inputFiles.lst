@@ -1,5 +1,3 @@
-E:\workspace\eclipse\jee\mq-connection-server\src\main\java\com\idata\mq\connection\listener\CommandMessageListener.java
-E:\workspace\eclipse\jee\mq-connection-server\src\main\java\com\idata\mq\connection\listener\DeviceMessageListener.java
-E:\workspace\eclipse\jee\mq-connection-server\src\main\java\com\idata\mq\connection\AbstractMessageReceiver.java
-E:\workspace\eclipse\jee\mq-connection-server\src\main\java\com\idata\mq\connection\service\Connection2MdmMessageSendServiceImpl.java
-E:\workspace\eclipse\jee\mq-connection-server\src\main\java\com\idata\mq\connection\service\Connection2MdmMessageSendService.java
+C:\Users\wanghang\git\idt-mdm-mq\mq-connection-server\src\main\java\com\idata\mq\connection\service\Connection2MdmMessageSendService.java
+C:\Users\wanghang\git\idt-mdm-mq\mq-connection-server\src\main\java\com\idata\mq\connection\AbstractMessageReceiver.java
+C:\Users\wanghang\git\idt-mdm-mq\mq-connection-server\src\main\java\com\idata\mq\connection\service\Connection2MdmMessageSendServiceImpl.java

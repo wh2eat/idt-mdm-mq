@@ -41,7 +41,7 @@ public class Application {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context.xml");
 
         final Mdm2ConnectionMessageSendServce connectionMessageSenderServce = (Mdm2ConnectionMessageSendServce) context
-                .getBean("connectionMessageSendServce");
+                .getBean("mdm2ConnectionMessageSendServce");
 
         String model = "manual";
 

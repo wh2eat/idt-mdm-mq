@@ -55,11 +55,12 @@
 	</Appenders>
 
 	<Loggers>
-		<!-- <Logger name="com.idata.mq.mdm.service" level="debug" additivity="false"> -->
+		<Logger name="org.springframework.amqp.rabbit" level="INFO"></Logger>
+		<!-- <Logger name="com.idata.mq.mdm.service" level="debug" -->
+		<!-- additivity="false"> -->
 		<!-- <AppenderRef ref="send_message_log" /> -->
 		<!-- </Logger> -->
-<!-- 		<Logger name="org.springframework.amqp.rabbit" level="INFO"></Logger> -->
-		<Root level="debug">
+		<Root level="info">
 			<AppenderRef ref="STDOUT" />
 			<!-- <AppenderRef ref="FILE" /> -->
 			<!-- <AppenderRef ref="async_all_message_log" /> -->

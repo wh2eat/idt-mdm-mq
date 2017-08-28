@@ -1,3 +1,3 @@
+com\idata\mq\connection\service\Connection2MdmMessageSendServiceImpl.class
 com\idata\mq\connection\AbstractMessageReceiver.class
-com\idata\mq\connection\listener\CommandMessageListener.class
-com\idata\mq\connection\listener\DeviceMessageListener.class
+com\idata\mq\connection\service\Connection2MdmMessageSendService.class

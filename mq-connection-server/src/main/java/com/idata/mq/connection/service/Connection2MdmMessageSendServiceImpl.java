@@ -25,7 +25,7 @@ import com.idata.mq.base.service.AbstractMessageSendService;
 import com.idata.mq.base.service.MessageConfirmCallback;
 import com.idata.mq.base.service.MessageReturnCallback;
 
-@Service
+@Service("connection2MdmMessageSendService")
 public class Connection2MdmMessageSendServiceImpl extends AbstractMessageSendService
         implements Connection2MdmMessageSendService {
 

@@ -49,15 +49,15 @@
 
 	<Loggers>
 		<Logger name="org.springframework.amqp.rabbit" level="INFO"></Logger>
-		<Logger name="com.idata.mq.base" level="debug" additivity="false">
-            <AppenderRef ref="all_message_log" />
-        </Logger>
-		<Logger name="com.idata.mq.mdm.service" level="debug" additivity="false">
-			<AppenderRef ref="send_message_log" />
-		</Logger>
-		<Logger name="com.idata.mq.mdm.test" level="debug" additivity="false">
-			<AppenderRef ref="revice_message_log" />
-		</Logger>
+<!-- 		<Logger name="com.idata.mq.base" level="debug" additivity="false"> -->
+<!--             <AppenderRef ref="all_message_log" /> -->
+<!--         </Logger> -->
+<!-- 		<Logger name="com.idata.mq.mdm.service" level="debug" additivity="false"> -->
+<!-- 			<AppenderRef ref="send_message_log" /> -->
+<!-- 		</Logger> -->
+<!-- 		<Logger name="com.idata.mq.mdm.test" level="debug" additivity="false"> -->
+<!-- 			<AppenderRef ref="revice_message_log" /> -->
+<!-- 		</Logger> -->
 		<Root level="info">
 			<AppenderRef ref="STDOUT" />
 		</Root>

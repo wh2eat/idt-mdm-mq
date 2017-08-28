@@ -1,0 +1,4 @@
+com\idata\mq\conection\test\Connection2MdmMessageSendServiceTest.class
+com\idata\mq\conection\test\MdmMessageReceiver.class
+com\idata\mq\conection\test\ConnectionMessageReceiver.class
+com\idata\mq\conection\test\ConnectionMessageListenerTest.class

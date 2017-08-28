@@ -17,38 +17,27 @@ public class MessageReceiver extends AbstractMessageReceiver {
 
     @Override
     public void receive(DeviceMessageResultMessage deviceMessageResultMessage) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[][receive][DeviceMessageResultMessage:" + deviceMessageResultMessage.getMessageId() + "]");
-        }
+        LOGGER.info("[][receive][DeviceMessageResultMessage:" + deviceMessageResultMessage.getMessageId() + "]");
     }
 
     @Override
     public void receive(DeviceOnlineMessage deviceOnlineMessage) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[][receive][DeviceOnlineMessage:" + deviceOnlineMessage.getMessageId() + "]");
-        }
+        LOGGER.info("[][receive][DeviceOnlineMessage:" + deviceOnlineMessage.getMessageId() + "]");
     }
 
     @Override
     public void receive(DeviceOfflineMessage deviceOfflineMessage) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[][receive][DeviceOfflineMessage:" + deviceOfflineMessage.getMessageId() + "]");
-        }
+        LOGGER.info("[][receive][DeviceOfflineMessage:" + deviceOfflineMessage.getMessageId() + "]");
     }
 
     @Override
     public void receive(ServerStatusMessage connectionServerStatusMessage) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(
-                    "[][receive][ConnectionServerStatusMessage:" + connectionServerStatusMessage.getMessageId() + "]");
-        }
+        LOGGER.info("[][receive][ConnectionServerStatusMessage:" + connectionServerStatusMessage.getMessageId() + "]");
     }
 
     @Override
     public void receive(FailMessage failMessage) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("[][receive][FailMessage:" + FailMessageUtil.getMessage(failMessage) + "]");
-        }
+        LOGGER.info("[][receive][FailMessage:" + FailMessageUtil.getMessage(failMessage) + "]");
     }
 
 }

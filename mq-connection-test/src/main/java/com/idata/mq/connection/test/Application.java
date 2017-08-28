@@ -35,10 +35,8 @@ public class Application {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context.xml");
 
-        final Connection2MdmMessageSendService messageSenderService = (Connection2MdmMessageSendService) context.getBean("messageSendService");
-
-        // MessageSenderService messageSender = (MessageSenderService)
-        // context.getBean("messageSenderService");
+        final Connection2MdmMessageSendService messageSenderService = (Connection2MdmMessageSendService) context
+                .getBean("connection2MdmMessageSendService");
 
         final RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
 

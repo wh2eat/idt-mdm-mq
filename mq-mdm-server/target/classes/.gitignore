@@ -1,5 +1,2 @@
-/META-INF/
 /com/
-/log4j2.xml
-/mq-mdm-test-spring-context.xml
-/rabbitmq.properties
+/META-INF/
