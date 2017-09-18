@@ -8,6 +8,8 @@ public class DeviceOnlineMessage extends BaseMessage {
 
     private String netType;
 
+    private String netName;
+
     public DeviceOnlineMessage() {
     }
 
@@ -45,5 +47,13 @@ public class DeviceOnlineMessage extends BaseMessage {
         finally {
             buffer = null;
         }
+    }
+
+    public String getNetName() {
+        return netName;
+    }
+
+    public void setNetName(String netName) {
+        this.netName = netName;
     }
 }
