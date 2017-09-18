@@ -110,6 +110,11 @@ public class Application {
                             else {
                                 onlineMessage.setNetType("wifi");
                             }
+
+                            if (params.length > 4) {
+                                onlineMessage.setNetName(params[4]);
+                            }
+
                             messageSenderService.sendDeviceOnline(onlineMessage);
                             System.out.println(">>>" + JSONObject.toJSONString(onlineMessage));
                         }
